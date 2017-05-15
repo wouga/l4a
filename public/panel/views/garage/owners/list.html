@@ -1,0 +1,65 @@
+<div class="animated fadeIn" ng-controller="GarageOwnerListCtrl">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user"></i> Owners
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-sm">
+                        <colgroup>
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="25%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>E-mail</th>
+                            <th>Phone</th>
+                            <th class="text-center">Newsletter</th>
+                            <th class="text-center">Sex</th>
+                            <th class="text-center">Cars</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in items track by $index">
+                            <td>{{item.name}}</td>
+                            <td>{{item.surname}}</td>
+                            <td><a href="mailto:{{item.email}}">{{item.email}}</a></td>
+                            <td>{{item.phone}}</td>
+                            <td class="text-center">
+                                <i class="fa"
+                                   ng-class="{'fa-square-o':!item.newsletter,'fa-check-square-o':item.newsletter}"
+                                   aria-hidden="true"></i>
+                            </td>
+
+                            <td class="text-center"><i class="fa" ng-class="{'fa-male':!item.sex,'fa-female':item.sex}"
+                                                       aria-hidden="true"></i></td>
+                            <td class="text-center">{{item.cars.length}}</td>
+                            <td>
+                                <a href="#" ng-click="showCarByOwner(item)" class="btn btn-info btn-sm" ng-class="{'disabled':item.cars.length===0}">Show Cars</a>
+                                <a href="#" ng-click="addCar(item)" class="btn btn-success btn-sm">Add Car</a>
+                                <a href="#" ng-click="editUser(item)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+                                <a href="#" ng-click="deleteUser(item)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <item-paginator class="pull-left"></item-paginator>
+                    <a href="#" ng-click="addUser()" class="pull-right btn btn-success btn-sm">Add User</a>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+    <!--/.row-->
+</div>

@@ -9,7 +9,17 @@ use Illuminate\Http\Request;
 
 class AuthenticateController extends Controller
 {
-    public function authenticate(Request $request)
+    public function user()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            return response($user->toArray());
+        } catch (\Exception $e) {
+            return response(['message' => 'User not logged in'], 403);
+        }
+    }
+
+    public function login(Request $request)
     {
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
@@ -26,5 +36,12 @@ class AuthenticateController extends Controller
 
         // all good so return the token
         return response()->json(compact('token'));
+    }
+
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+
+        return response(['message' => 'User has been logged out']);
     }
 }

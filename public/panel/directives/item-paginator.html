@@ -1,0 +1,13 @@
+<nav>
+    <ul class="pagination">
+        <li ng-class="{'disabled' : res.current_page === 1}" class="page-item ">
+            <a class="page-link" href="#" ng-click="loadPage(res.current_page-1)">Prev</a>
+        </li>
+        <li class="page-item" ng-repeat="i in [] | range:res.last_page" ng-class="{'active' : res.current_page == i}">
+            <a class="page-link" ng-click="loadPage(i)" href="#"> {{i}}</a>
+        </li>
+        <li  ng-class="{'disabled' : res.current_page === res.last_page}" class="page-item">
+            <a class="page-link" ng-click="loadPage(res.current_page+1)" href="javascript:void(0);">Next</a>
+        </li>
+    </ul>
+</nav>

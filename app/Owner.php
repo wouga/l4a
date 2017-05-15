@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Owner extends Model
 {
+
+//    protected $with = ['cars'];
     public function cars()
     {
-        $this->hasMany(Car::class);
+        return $this->hasMany(Car::class);
     }
 }

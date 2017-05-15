@@ -20,7 +20,7 @@ class CreateCarsTable extends Migration
             $table->integer('year_of_production');
             $table->string('color', 6)->nullable();
             $table->string('vin');
-            $table->integer('user_id');
+            $table->integer('owner_id');
             $table->timestamps();
         });
     }

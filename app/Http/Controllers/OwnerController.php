@@ -14,7 +14,8 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        return \App\Owner::paginate(5);
+        $results = \App\Owner::with('cars')->paginate(5);
+        return $results;
     }
 
     /**
@@ -30,7 +31,7 @@ class OwnerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +42,7 @@ class OwnerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Owner  $owner
+     * @param  \App\Owner $owner
      * @return \Illuminate\Http\Response
      */
     public function show(Owner $owner)
@@ -52,7 +53,7 @@ class OwnerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Owner  $owner
+     * @param  \App\Owner $owner
      * @return \Illuminate\Http\Response
      */
     public function edit(Owner $owner)
@@ -63,8 +64,8 @@ class OwnerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Owner  $owner
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Owner $owner
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Owner $owner)
@@ -75,7 +76,7 @@ class OwnerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Owner  $owner
+     * @param  \App\Owner $owner
      * @return \Illuminate\Http\Response
      */
     public function destroy(Owner $owner)

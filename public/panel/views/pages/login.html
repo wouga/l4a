@@ -1,0 +1,36 @@
+<div class="app flex-row align-items-center" ng-controller="LoginCtrl">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card-group mb-0">
+                    <div class="card p-4">
+                        <div class="card-block">
+                            <h1>Login</h1>
+                            <p class="text-muted">Sign In to your account<br /> Login: demo@example.com <br /> Password: demo</p>
+                            <div class="card card-inverse card-danger text-center" ng-show="error">
+                                <div class="card-block">{{error}}</div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i>
+                                </span>
+                                <input type="text" class="form-control" set-focus ng-enter="login()" ng-model="user.email"
+                                       placeholder="E-mail">
+                            </div>
+                            <div class="input-group mb-4">
+                                <span class="input-group-addon"><i class="fa fa-key"></i>
+                                </span>
+                                <input type="password" ng-enter="login()" class="form-control" ng-model="user.password"
+                                       placeholder="Password">
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" ng-click="login()" class="btn btn-primary px-4">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ class CarsTableSeeder extends Seeder
                 'year_of_production' => $faker->numberBetween(1990,2017),
                 'color' => ltrim($faker->hexColor,'#'),
                 'vin' => $faker->regexify('[A-Z]{3}[A-Z0-9]{6}[A-Z0-9]{8}'),
-                'user_id' => $faker->randomElement($owners),
+                'owner_id' => $faker->randomElement($owners),
                 'created_at' => $faker->dateTime(),
                 'updated_at' => $faker->dateTime()
             ]);

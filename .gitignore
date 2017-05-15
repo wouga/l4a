@@ -9,3 +9,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+public/panel/node_modules/
+public/panel/bower_components/tether/examples/tooltip/index.html
+public/panel/bower_components/
