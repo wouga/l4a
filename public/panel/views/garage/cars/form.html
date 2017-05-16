@@ -1,0 +1,114 @@
+<div class="animated fadeIn" ng-controller="GarageCarFormCtrl">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong ng-show="mode==='EDIT'">Edit Car</strong>
+                    <strong ng-show="mode==='ADD'">Add Car</strong>
+                </div>
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="model">Model</label>
+                                <select class="form-control" name="repeatSelect" id="model" ng-model="item.model">
+                                    <option value="">
+                                        Choose the model
+                                    </option>
+                                    <option ng-repeat="option in models" value="{{option.id}}">
+                                        {{option.name}}
+                                    </option>
+                                </select>
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.model">
+                                    <div ng-repeat="error in errors.model" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="version">Version</label>
+                                <input type="text" class="form-control" ng-model="item.version" id="version"
+                                       placeholder="Version">
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.version">
+                                    <div ng-repeat="error in errors.version" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="year_of_production">Year of production</label>
+                                <input type="text" class="form-control" ng-model="item.year_of_production"
+                                       id="year_of_production"
+                                       placeholder="Year of production">
+                                <div class="card card-inverse card-danger text-center"
+                                     ng-show="errors.year_of_production">
+                                    <div ng-repeat="error in errors.year_of_production" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="color">Color</label>
+                                <input colorpicker="hex" id="color" type="text" class="form-control" transform-hex
+                                       ng-model="item.color"/>
+                                <div class="card card-inverse card-danger text-center"
+                                     ng-show="errors.color">
+                                    <div ng-repeat="error in errors.color" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="vin">VIN</label>
+                                <input type="text" class="form-control" ng-model="item.vin" id="vin"
+                                       placeholder="VIN">
+                            </div>
+                            <div class="card card-inverse card-danger text-center" ng-show="errors.vin">
+                                <div ng-repeat="error in errors.vin" class="">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="owner_id">Owner</label>
+                                <select class="form-control" name="repeatSelect" id="owner_id" ng-model="item.owner_id">
+                                    <option value="">
+                                        Choose the owner
+                                    </option>
+                                    <option ng-repeat="option in owners" value="{{option.id}}">
+                                        {{option.value.name}} {{option.value.surname}}
+                                    </option>
+                                </select>
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.owner_id">
+                                    <div ng-repeat="error in errors.owner_id" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="button" ng-click="save()" class="btn btn-sm btn-success pull-right"><i
+                            class="fa fa-dot-circle-o"></i> Save
+                    </button>
+                    <button type="button" ng-click="goBack()" class="btn btn-sm btn-info pull-left"><i
+                            class="fa fa-angle-left"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+</div>

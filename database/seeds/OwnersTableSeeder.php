@@ -17,7 +17,7 @@ class OwnersTableSeeder extends Seeder
         foreach (range(1, 10) as $index) {
             DB::table('owners')->insert([
                 'email' => $faker->email,
-                'phone' => $faker->phoneNumber,
+                'phone' =>  '+'.$faker->regexify('[0-9]{2} [0-9]{9}'),
                 'name' => $faker->firstName,
                 'surname' => $faker->lastName,
                 'newsletter' => $faker->boolean(),

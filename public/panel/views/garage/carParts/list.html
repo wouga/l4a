@@ -1,0 +1,52 @@
+<div class="animated fadeIn" ng-controller="GarageCarPartListCtrl">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-cogs"></i> Car Parts
+                    <a href="#" ng-show="params.car_id" ng-click="showAllCarParts()">[Show All Car Parts]</a>
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-sm">
+                        <colgroup>
+                            <col width="50%">
+                            <col width="12%">
+                            <col width="12%">
+                            <col width="12%">
+                            <col width="12%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Car</th>
+                            <th>Model</th>
+                            <th>Number</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in items track by $index">
+                            <td>{{item.car.model}} {{item.car.version}} (VIN: {{item.car.vin}})</td>
+                            <td>{{item.model}}</td>
+                            <td>{{item.number}}</td>
+                            <td>{{item.price | number : 2}}</td>
+                            <td>
+                                <a href="#" ng-click="editCarPart(item)" class="btn btn-primary btn-sm"><i
+                                        class="fa fa-pencil"></i></a>
+                                <a href="#" ng-click="deleteCarPart(item)" class="btn btn-danger btn-sm"><i
+                                        class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <item-paginator class="pull-left"></item-paginator>
+                    <a href="#" ui-sref="app.garage.carPartsAdd" class="pull-right btn btn-success btn-sm">Add Car
+                        Part</a>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+    <!--/.row-->
+</div>

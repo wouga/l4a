@@ -24,6 +24,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 //Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('owner', 'OwnerController');
+    Route::resource('car', 'CarController');
+    Route::resource('car-part', 'CarPartController');
 //});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

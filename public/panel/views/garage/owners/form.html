@@ -1,17 +1,21 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" ng-controller="GarageOwnerFormCtrl">
     <div class="row">
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-header">
-                    <strong>Credit Card</strong>
-                    <small>Form</small>
+                    <strong ng-show="mode==='EDIT'">Edit Owner</strong>
+                    <strong ng-show="mode==='ADD'">Add Owner</strong>
                 </div>
                 <div class="card-block">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="text" class="form-control" ng-model="item.name" id="name"
+                                       placeholder="Name">
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.name">
+                                    <div ng-repeat="error in errors.name" class="">{{error}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -20,7 +24,11 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="surname">Surname</label>
-                                <input type="text" class="form-control" id="surname" placeholder="Surname">
+                                <input type="text" class="form-control" ng-model="item.surname" id="surname"
+                                       placeholder="Surname">
+                            </div>
+                            <div class="card card-inverse card-danger text-center" ng-show="errors.surname">
+                                <div ng-repeat="error in errors.surname" class="">{{error}}</div>
                             </div>
                         </div>
                     </div>
@@ -29,7 +37,11 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="email">E-mail</label>
-                                <input type="text" class="form-control" id="email"  placeholder="E-mail">
+                                <input type="text" class="form-control" ng-model="item.email" id="email"
+                                       placeholder="E-mail">
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.email">
+                                    <div ng-repeat="error in errors.email" class="">{{error}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,19 +50,28 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="Name">
+                                <input type="text" class="form-control" ng-model="item.phone" id="phone"
+                                       placeholder="Name">
+                            </div>
+                            <div class="card card-inverse card-danger text-center" ng-show="errors.phone">
+                                <div ng-repeat="error in errors.phone" class="">{{error}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="newsltter">Newsletter</label><br />
+                                <label for="newsltter">Newsletter</label><br/>
                                 <label class="switch switch-text switch-info">
-                                    <input type="checkbox" class="switch-input" id="newsltter" checked>
+                                    <input ng-true-value="1" ng-false-value="0" type="checkbox"
+                                           ng-model="item.newsletter" class="switch-input"
+                                           id="newsltter" checked>
                                     <span class="switch-label" data-on="On" data-off="Off"></span>
                                     <span class="switch-handle"></span>
                                 </label>
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.newsletter">
+                                    <div ng-repeat="error in errors.newsletter" class="">{{error}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,10 +82,11 @@
 
                             <div class="form-group">
                                 <label for="sex">Sex</label>
-                                <select id="sex" name="sex" class="form-control">
-                                    <option value="0">Male</option>
-                                    <option value="1">Female</option>
+                                <select class="form-control" ng-model="item.sex"  ng-options="o.key as o.value for o in myFixedSexes">
                                 </select>
+                                <div   class="card card-inverse card-danger text-center" ng-show="errors.sex">
+                                    <div ng-repeat="error in errors.sex" class="">{{error}}</div>
+                                </div>
                             </div>
 
                         </div>
@@ -73,8 +95,12 @@
 
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-sm btn-success pull-right"><i class="fa fa-dot-circle-o"></i> Save</button>
-                    <button type="reset" class="btn btn-sm btn-info pull-left"><i class="fa fa-angle-left"></i> Back</button>
+                    <button type="button" ng-click="save()" class="btn btn-sm btn-success pull-right"><i
+                            class="fa fa-dot-circle-o"></i> Save
+                    </button>
+                    <button type="button" ng-click="goBack()" class="btn btn-sm btn-info pull-left"><i
+                            class="fa fa-angle-left"></i> Back
+                    </button>
                 </div>
             </div>
         </div>

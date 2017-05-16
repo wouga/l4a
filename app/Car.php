@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
 class Car extends Model
 {
+    use CascadesDeletes;
+    protected $cascadeDeletes = ['carParts'];
 
     public function owner()
     {
@@ -16,4 +19,5 @@ class Car extends Model
     {
         return $this->hasMany(CarPart::class);
     }
+
 }

@@ -14,12 +14,11 @@ angular
         }];
 
         var loginRequired = ['$q', '$state', '$auth', function ($q, $state, $auth) {
-
             var deferred = $q.defer();
             if ($auth.isAuthenticated()) {
                 deferred.resolve();
             } else {
-                $state.go('login');
+                $state.go('appPage.login');
             }
             return deferred.promise;
         }];
@@ -29,7 +28,7 @@ angular
         });
 
         $breadcrumbProvider.setOptions({
-            prefixStateName: 'app.main',
+            prefixStateName: 'app.garage',
             includeAbstract: true,
             template: '<li class="breadcrumb-item" ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract"><a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a><span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span></li>'
         });
@@ -69,56 +68,7 @@ angular
                     }],
                 }
             })
-            .state('app.main', {
-                url: '/dashboard2',
-                templateUrl: 'views/main.html',
-                //page title goes here
-                ncyBreadcrumb: {
-                    label: 'Home',
-                },
-                //page subtitle goes here
-                params: {subtitle: 'Welcome to ROOT powerfull Bootstrap & AngularJS UI Kit'},
-                resolve: {
-                    loginRequired: loginRequired,
-                    loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        // you can lazy load files for an existing module
-                        return $ocLazyLoad.load([
-                            {
-                                serie: true,
-                                name: 'chart.js',
-                                files: [
-                                    'bower_components/chart.js/dist/Chart.min.js',
-                                    'bower_components/angular-chart.js/dist/angular-chart.min.js'
-                                ]
-                            },
-                        ]);
-                    }],
-                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        // you can lazy load controllers
-                        return $ocLazyLoad.load({
-                            files: ['js/controllers/main.js']
-                        });
-                    }]
-                }
-            })
-            .state('appSimple', {
-                abstract: true,
-                templateUrl: 'views/common/layouts/simple.html',
-                resolve: {
-                    loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        // you can lazy load files for an existing module
-                        return $ocLazyLoad.load([{
-                            serie: true,
-                            name: 'Font Awesome',
-                            files: ['css/font-awesome.min.css']
-                        }, {
-                            serie: true,
-                            name: 'Simple Line Icons',
-                            files: ['css/simple-line-icons.css']
-                        }]);
-                    }],
-                }
-            })
+
             .state('app.garage', {
                 url: "/garage",
                 abstract: true,
@@ -162,12 +112,29 @@ angular
                 }
             })
             .state('app.garage.ownersEdit', {
-                url: '/owner-edit/{id:int}',
+                url: '/owner-form/{id:int}',
                 templateUrl: 'views/garage/owners/form.html',
                 ncyBreadcrumb: {
                     label: 'Edit Owner'
                 },
                 resolve: {
+                    loginRequired: loginRequired,
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: ['js/controllers/garage/owners.js']
+                        });
+                    }]
+                }
+            })
+            .state('app.garage.ownersAdd', {
+                url: '/owner-form',
+                templateUrl: 'views/garage/owners/form.html',
+                ncyBreadcrumb: {
+                    label: 'Edit Owner'
+                },
+                resolve: {
+                    loginRequired: loginRequired,
                     loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
                         // you can lazy load files for an existing module
                         return $ocLazyLoad.load({
@@ -178,21 +145,146 @@ angular
             })
 
             .state('app.garage.cars', {
-                url: '/owners',
+                url: '/cars',
                 templateUrl: 'views/garage/cars/list.html',
+                params: {
+                    owner_id: null
+                },
                 ncyBreadcrumb: {
-                    label: 'Owners'
+                    label: 'Cars'
+                },
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: ['js/controllers/garage/cars.js']
+                        });
+                    }]
                 }
-            }).state('app.garage.carPart', {
-            url: '/owners',
-            templateUrl: 'views/garage/carPart/lsit.html',
-            ncyBreadcrumb: {
-                label: 'Owners'
-            }
-        })
+            })
+            .state('app.garage.carsEdit', {
+                url: '/cars-form/{id:int}',
+                templateUrl: 'views/garage/cars/form.html',
+                ncyBreadcrumb: {
+                    label: 'Edit Car'
+                },
+                resolve: {
+                    loginRequired: loginRequired,
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: [
+                                'js/controllers/garage/cars.js',
+                                'js/controllers/garage/owners.js'
+                            ]
+                        });
+                    }]
+                }
+            })
+            .state('app.garage.carsAdd', {
+                url: '/cars-form',
+                templateUrl: 'views/garage/cars/form.html',
+                ncyBreadcrumb: {
+                    label: 'Edit Car'
+                },
+                params: {
+                    owner_id: null
+                },
+                resolve: {
+                    loginRequired: loginRequired,
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: [
+                                'js/controllers/garage/cars.js',
+                                'js/controllers/garage/owners.js'
+                            ]
+                        });
+                    }]
+                }
+            })
 
-        // Additional Pages
-            .state('appSimple.login', {
+
+            .state('app.garage.carParts', {
+                url: '/car-parts',
+                templateUrl: 'views/garage/carParts/list.html',
+                ncyBreadcrumb: {
+                    label: 'Car Parts'
+                },
+                params: {
+                    car_id: null
+                },
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: ['js/controllers/garage/carParts.js']
+                        });
+                    }]
+                }
+            })
+            .state('app.garage.carPartsEdit', {
+                url: '/car-parts-form/{id:int}',
+                templateUrl: 'views/garage/carParts/form.html',
+                ncyBreadcrumb: {
+                    label: 'Edit Car Part'
+                },
+                resolve: {
+                    loginRequired: loginRequired,
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: [
+                                'js/controllers/garage/carParts.js',
+                                'js/controllers/garage/cars.js'
+                            ]
+                        });
+                    }]
+                }
+            })
+            .state('app.garage.carPartsAdd', {
+                url: '/car-parts-form',
+                templateUrl: 'views/garage/carParts/form.html',
+                ncyBreadcrumb: {
+                    label: 'Edit Car Part'
+                },
+                params: {
+                    car_id: null
+                },
+                resolve: {
+                    loginRequired: loginRequired,
+                    loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load({
+                            files: [
+                                'js/controllers/garage/carParts.js',
+                                'js/controllers/garage/cars.js'
+                            ]
+                        });
+                    }]
+                }
+            })
+
+            .state('appPage', {
+                abstract: true,
+                templateUrl: 'views/common/layouts/simple.html',
+                resolve: {
+                    loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        // you can lazy load files for an existing module
+                        return $ocLazyLoad.load([{
+                            serie: true,
+                            name: 'Font Awesome',
+                            files: ['css/font-awesome.min.css']
+                        }, {
+                            serie: true,
+                            name: 'Simple Line Icons',
+                            files: ['css/simple-line-icons.css']
+                        }]);
+                    }],
+                }
+            })
+            // Additional Pages
+            .state('appPage.login', {
                 url: '/login',
                 templateUrl: 'views/pages/login.html',
                 resolve: {
@@ -205,11 +297,11 @@ angular
                     }]
                 }
             })
-            .state('appSimple.404', {
+            .state('appPage.404', {
                 url: '/404',
                 templateUrl: 'views/pages/404.html'
             })
-            .state('appSimple.500', {
+            .state('appPage.500', {
                 url: '/500',
                 templateUrl: 'views/pages/500.html'
             })

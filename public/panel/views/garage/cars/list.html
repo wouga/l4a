@@ -1,0 +1,65 @@
+<div class="animated fadeIn" ng-controller="GarageCarListCtrl">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-car"></i> Cars <a href="#" ng-show="params.owner_id" ng-click="showAllCars()">[Show
+                    All Cars]</a>
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-sm">
+                        <colgroup>
+                            <col width="auto">
+                            <col width="auto">
+                            <col width="auto">
+                            <col width="auto">
+                            <col width="85px">
+                            <col width="auto">
+                            <col width="80px">
+                            <col width="300px">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Model</th>
+                            <th>Version</th>
+                            <th>Year of production</th>
+                            <th>Color</th>
+                            <th>VIN</th>
+                            <th class="text-center">Car Parts</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in items track by $index">
+                            <td>{{item.owner.name}} {{item.owner.surname}}</td>
+                            <td>{{item.model}}</td>
+                            <td>{{item.version}}</td>
+                            <td>{{item.year_of_production}}</td>
+                            <td><i class="fa fa-square" style="color: #{{item.color}}" aria-hidden="true"></i>
+                                #{{item.color}}
+                            </td>
+                            <td>{{item.vin}}</td>
+                            <td class="text-center">{{item.car_parts.length}}</td>
+                            <td>
+                                <a href="#" ng-click="showCarPartsByCar(item)" class="btn btn-info btn-sm"
+                                   ng-class="{'disabled':item.car_parts.length===0}">Show Cars Parts</a>
+                                <a href="#" ng-click="addCarPart(item)" class="btn btn-success btn-sm">Add Car Part</a>
+                                <a href="#" ng-click="editCar(item)" class="btn btn-primary btn-sm"><i
+                                        class="fa fa-pencil"></i></a>
+                                <a href="#" ng-click="deleteCar(item)" class="btn btn-danger btn-sm"><i
+                                        class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <item-paginator class="pull-left"></item-paginator>
+                    <a href="#" ui-sref="app.garage.carsAdd" class="pull-right btn btn-success btn-sm">Add Car</a>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+    <!--/.row-->
+</div>

@@ -1,0 +1,81 @@
+<div class="animated fadeIn" ng-controller="GarageCarPartFormCtrl">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong ng-show="mode==='EDIT'">Edit Car Part</strong>
+                    <strong ng-show="mode==='ADD'">Add Car Part</strong>
+                </div>
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="model">Model</label>
+                                <input type="text" class="form-control" ng-model="item.model" id="model"
+                                       placeholder="Model">
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.model">
+                                    <div ng-repeat="error in errors.model" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="number">Number</label>
+                                <input type="text" class="form-control" ng-model="item.number"
+                                       id="number"
+                                       placeholder="Number">
+                                <div class="card card-inverse card-danger text-center"
+                                     ng-show="errors.number">
+                                    <div ng-repeat="error in errors.number" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-control" ng-model="item.price" id="price"
+                                       placeholder="Price">
+                            </div>
+                            <div class="card card-inverse card-danger text-center" ng-show="errors.price">
+                                <div ng-repeat="error in errors.price" class="">{{error}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="car_id">Owner</label>
+                                <select class="form-control" name="car_id" id="car_id" ng-model="item.car_id">
+                                    <option value="">
+                                        Choose the car
+                                    </option>
+                                    <option ng-repeat="option in cars" value="{{option.id}}">
+                                        {{option.value.model}} {{option.value.version}} {{option.value.vin}}
+                                    </option>
+                                </select>
+                                <div class="card card-inverse card-danger text-center" ng-show="errors.car_id">
+                                    <div ng-repeat="error in errors.car_id" class="">{{error}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button type="button" ng-click="save()" class="btn btn-sm btn-success pull-right"><i
+                            class="fa fa-dot-circle-o"></i> Save
+                    </button>
+                    <button type="button" ng-click="goBack()" class="btn btn-sm btn-info pull-left"><i
+                            class="fa fa-angle-left"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+</div>

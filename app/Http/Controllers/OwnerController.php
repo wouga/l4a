@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class OwnerController extends Controller
 {
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->middleware('jwt.auth',   ['only' => ['store','update','delete']]);
+        $this->request = $request;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,11 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $results = \App\Owner::with('cars')->paginate(5);
+        if ($this->request->input('all') !== 'true') {
+            $results = \App\Owner::with('cars')->paginate(5);
+        } else {
+            $results = \App\Owner::get();
+        }
         return $results;
     }
 
@@ -36,7 +48,26 @@ class OwnerController extends Controller
      */
     public function store(Request $request)
     {
+        $owner = new owner();
 
+        $this->validate($request, [
+            'email' => 'required|email|max:50',
+            'phone' => 'required|min:9|max:50',
+            'name' => 'required|min:2|max:50',
+            'surname' => 'nullable|min:2|max:50',
+            'newsletter' => 'boolean',
+            'sex' => 'boolean',
+        ]);
+
+        $owner->email = $request->email;
+        $owner->phone = $request->phone;
+        $owner->name = $request->name;
+        $owner->surname = $request->surname;
+        $owner->newsletter = $request->newsletter;
+        $owner->sex = $request->sex;
+        $owner->touch();
+
+        return $owner;
     }
 
     /**
@@ -70,7 +101,23 @@ class OwnerController extends Controller
      */
     public function update(Request $request, Owner $owner)
     {
-        //
+        $this->validate($request, [
+            'email' => 'required|email|max:50',
+            'phone' => 'required|min:9|max:50',
+            'name' => 'required|min:2|max:50',
+            'surname' => 'nullable|min:2|max:50',
+            'newsletter' => 'boolean',
+            'sex' => 'boolean',
+        ]);
+
+        $owner->email = $request->email;
+        $owner->phone = $request->phone;
+        $owner->name = $request->name;
+        $owner->surname = $request->surname;
+        $owner->newsletter = $request->newsletter;
+        $owner->sex = $request->sex;
+        $owner->touch();
+        return $owner;
     }
 
     /**
@@ -81,6 +128,8 @@ class OwnerController extends Controller
      */
     public function destroy(Owner $owner)
     {
-        //
+        $owner->delete();
+        $results = \App\Owner::with('cars')->paginate(5);
+        return $results;
     }
 }

@@ -1,6 +1,6 @@
 angular
     .module('app')
-    .controller('LoginCtrl', function ($scope, $auth, $q, $state) {
+    .controller('LoginCtrl', function ($scope, $auth, $q, $state, $cookies) {
 
         $scope.user = {};
         $scope.error = null;
@@ -15,8 +15,13 @@ angular
                     $scope.error = response.data.error;
                 }
                 if (response && response.data && response.data.token) {
-                    $state.go('app.garage.owners');
-                    console.log('success');
+                    var goTo = $cookies.get('goToHref');
+                    if (goTo) {
+                        window.location.href = goTo;
+                        $cookies.put('goToHref', false);
+                    } else {
+                        $state.go('app.garage.owners');
+                    }
                 }
             }).catch(function (response) {
                 console.log(arguments);

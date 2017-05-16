@@ -1,26 +1,20 @@
 angular
     .module('app')
-    .controller('GarageOwnerFormCtrl', function ($scope, $state, $stateParams, GarageOwnerService) {
+    .controller('GarageCarPartFormCtrl', function ($scope, $state, $stateParams, GarageCarPartService, GarageCarService) {
         var id = $stateParams.id;
         $scope.mode = 'ADD';
-        $scope.item = {sex: 0};
+        $scope.cars = [];
+        $scope.item = {};
+        if ($state.params && $state.params.car_id) {
+            $scope.item.car_id = $state.params.car_id.toString();
+        }
         $scope.errors = null;
-        $scope.sexes = {
-            0: "Male",
-            1: "Female",
-        };
-        $scope.myFixedSexes = [];
-        $scope.$watchCollection('sexes', function () {
-            $scope.myFixedSexes = [];
-            angular.forEach($scope.sexes, function (value, key) {
-                $scope.myFixedSexes.push({key: parseInt(key, 10), value: value});
-            });
-        });
-
         var loadRemoteData = function (id) {
-            GarageOwnerService.getData({}, id)
+            GarageCarPartService.getData({}, id)
                 .then(function (data) {
                     $scope.item = data;
+                    $scope.item.car_id = data.car_id.toString();
+                    getCars();
                 }, function (res) {
                     $scope.loadingData = false;
                     if (res.status && res.status === 403) {
@@ -33,10 +27,10 @@ angular
 
         var saveData = function (id) {
             $scope.errors = null;
-            GarageOwnerService.saveData($scope.item, id)
+            GarageCarPartService.saveData($scope.item, id)
                 .then(function (data) {
                     $scope.item = data;
-                    $state.go('app.garage.owners');
+                    $state.go('app.garage.carParts');
                 }, function (res) {
                     $scope.loadingData = false;
                     if (res.status && res.status === 403) {
@@ -52,12 +46,27 @@ angular
                 });
         }
 
-
+        var getCars = function () {
+            GarageCarService.getData({all: true}).then(function (data) {
+                for (var i in data) {
+                    $scope.cars.push({id: data[i].id, value: data[i]});
+                }
+            }, function (res) {
+                if (res.status && res.status === 403) {
+                    console.error('Access Denied');
+                    return;
+                }
+                console.error('Cannon get data');
+            });
+        };
         var init = function () {
+
             id = $stateParams.id;
             if (id) {
                 $scope.mode = 'EDIT'
                 loadRemoteData(id);
+            } else {
+                getCars();
             }
         }
 
@@ -69,33 +78,36 @@ angular
             }
         }
         $scope.goBack = function () {
-            $state.go('app.garage.owners');
+            $state.go('app.garage.carParts');
         };
         init();
 
     });
 angular
     .module('app')
-    .controller('GarageOwnerListCtrl', function ($scope, $state, GarageOwnerService) {
+    .controller('GarageCarPartListCtrl', function ($scope, $state, GarageCarPartService) {
         $scope.items = [];
         $scope.res = {};
-        $scope.addCar = function (item) {
-            $state.go('app.garage.carsAdd', {owner_id: item.id});
+        $scope.params = $state.params;
+        $scope.showCarPartsByCar = function () {
+
+        };
+        $scope.showAllCarParts = function (item) {
+            $scope.params.car_id = null;
+            loadRemoteData();
         }
-        $scope.showCarByOwner = function (item) {
-            $state.go('app.garage.cars', {owner_id: item.id});
+        $scope.editCarPart = function (item) {
+            $state.go('app.garage.carPartsEdit', {id: item.id});
         };
-        $scope.editOwner = function (item) {
-            $state.go('app.garage.ownersEdit', {id: item.id});
-        };
-        $scope.deleteOwner = function (item) {
+        $scope.deleteCarPart = function (item) {
             deleteData(item.id);
         };
         var loadRemoteData = function (page) {
             if (typeof page === 'undefined') {
                 page = 1;
             }
-            GarageOwnerService.getData({page: page})
+            var params = angular.merge($scope.params, {page: page});
+            GarageCarPartService.getData(params)
                 .then(function (data) {
                     $scope.res = data;
                     $scope.items = data.data;
@@ -109,7 +121,7 @@ angular
         }
 
         var deleteData = function (id) {
-            GarageOwnerService.deleteData(id)
+            GarageCarPartService.deleteData(id)
                 .then(function (data) {
                     $scope.res = data;
                     $scope.items = data.data;
@@ -128,7 +140,7 @@ angular
     });
 
 
-angular.module('app').service('GarageOwnerService', function ($http, $q) {
+angular.module('app').service('GarageCarPartService', function ($http, $q) {
 
     return ({
         getData: getData,
@@ -148,7 +160,7 @@ angular.module('app').service('GarageOwnerService', function ($http, $q) {
         }
         var request = $http({
             method: method,
-            url: '/api/owner' + urlID,
+            url: '/api/car-part' + urlID,
             transformRequest: false,
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}
@@ -162,7 +174,7 @@ angular.module('app').service('GarageOwnerService', function ($http, $q) {
         }
         var request = $http({
             method: 'DELETE',
-            url: '/api/owner' + ((typeof id !== "undefined") ? ('/' + id) : ''),
+            url: '/api/car-part' + ((typeof id !== "undefined") ? ('/' + id) : ''),
             headers: {'Content-Type': 'application/json'}
         });
         return (request.then(handleSuccess, handleError));
@@ -175,7 +187,7 @@ angular.module('app').service('GarageOwnerService', function ($http, $q) {
         }
         var request = $http({
             method: "GET",
-            url: "/api/owner" + ((typeof id !== "undefined") ? ('/' + id) : ''),
+            url: "/api/car-part" + ((typeof id !== "undefined") ? ('/' + id) : ''),
             params: params
         });
         return (request.then(handleSuccess, handleError));
@@ -201,3 +213,27 @@ angular.module('app').service('GarageOwnerService', function ($http, $q) {
 });
 
 
+angular
+    .module('app').directive('transformHex', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+
+            if (ngModel) { // Don't do anything unless we have a model
+
+                ngModel.$parsers.push(function (value) {
+                    if (value.charAt(0) === '#') {
+                        return value.slice(1);
+                    }
+                    return value;
+                });
+
+                ngModel.$formatters.push(function (value) {
+                    return "#" + value;
+                });
+
+            }
+        }
+    };
+});

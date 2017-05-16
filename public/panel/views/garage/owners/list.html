@@ -48,14 +48,14 @@
                             <td>
                                 <a href="#" ng-click="showCarByOwner(item)" class="btn btn-info btn-sm" ng-class="{'disabled':item.cars.length===0}">Show Cars</a>
                                 <a href="#" ng-click="addCar(item)" class="btn btn-success btn-sm">Add Car</a>
-                                <a href="#" ng-click="editUser(item)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
-                                <a href="#" ng-click="deleteUser(item)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
+                                <a href="#" ng-click="editOwner(item)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+                                <a href="#" ng-click="deleteOwner(item)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                     <item-paginator class="pull-left"></item-paginator>
-                    <a href="#" ng-click="addUser()" class="pull-right btn btn-success btn-sm">Add User</a>
+                    <a href="#" ui-sref="app.garage.ownersAdd" class="pull-right btn btn-success btn-sm">Add User</a>
                 </div>
             </div>
         </div>
