@@ -149,6 +149,11 @@ angular
                         console.error('Access Denied');
                         return;
                     }
+                    if (res.status && res.status === 400) {
+                        console.error('Access Denied');
+                        $state.go('appPage.login');
+                        return;
+                    }
                     console.error('Cannon get data');
                 });
         }
