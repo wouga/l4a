@@ -13,21 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return "api";
-});
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/', 'AuthenticateController@user')->name('auth.info');
     Route::get('/logout', 'AuthenticateController@logout')->name('auth.logout');
     Route::post('/login', 'AuthenticateController@login')->name('auth.login');
 
 });
-//Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('owner', 'OwnerController');
     Route::resource('car', 'CarController');
     Route::resource('car-part', 'CarPartController');
-//});
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});

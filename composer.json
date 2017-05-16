@@ -9,6 +9,7 @@
         "barryvdh/laravel-ide-helper": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "mpociot/laravel-apidoc-generator": "^2.0",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "tymon/jwt-auth": "0.5.*"
     },

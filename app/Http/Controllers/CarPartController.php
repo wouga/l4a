@@ -12,13 +12,11 @@ class CarPartController extends Controller
 
     public function __construct(Request $request)
     {
-        $this->middleware('jwt.auth',   ['only' => ['store','update','delete']]);
+        $this->middleware('jwt.auth',   ['only' => ['store','update','destroy']]);
         $this->request = $request;
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -36,8 +34,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -46,8 +42,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -71,8 +65,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  \App\CarPart $carPart
      * @return \Illuminate\Http\Response
      */
@@ -82,8 +74,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param  \App\CarPart $carPart
      * @return \Illuminate\Http\Response
      */
@@ -93,8 +83,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\CarPart $carPart
      * @return \Illuminate\Http\Response
@@ -117,8 +105,6 @@ class CarPartController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  \App\CarPart $carPart
      * @return \Illuminate\Http\Response
      */
